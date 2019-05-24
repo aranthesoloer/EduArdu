@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private GameObject textEditor;
 
-
 	[SerializeField]
 	private Text interact;
 	// }

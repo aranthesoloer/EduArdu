@@ -32,10 +32,33 @@ public class BreadBoard : MonoBehaviour
  		}
 
  	}
+
+ 	public void hover(string a){
+ 		for(int i=0; i<holes.Length; i++){
+ 			if(holes[i]. isAvailable()){
+ 				if (holes[i].name == a){
+ 					holes[i].changeColor(2);
+	 			}
+	 			else{
+	 				holes[i].changeColor(1);
+	 			}
+ 			}
+ 		}
+
+ 	}
+
  	public void changeAvailability(bool x, string a, string b){
  		for(int i=0; i<holes.Length; i++){
  			if (holes[i].name == a | holes[i].name == b){
  				holes[i].setAvailability(x);
+ 			}
+ 		}
+ 	}
+ 	
+ 	public void changeWired(bool x, string a, string b){
+ 		for(int i=0; i<holes.Length; i++){
+ 			if (holes[i].name == a | holes[i].name == b){
+ 				holes[i].setWired(x);
  			}
  		}
  	}

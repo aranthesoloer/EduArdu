@@ -3,9 +3,14 @@
 public class Droppable : MonoBehaviour
 {
  	public Material[] material;
+
+ 	[SerializeField]
+	private Droppable [] neighbors;
 	Renderer rend;
 	private bool availability;
-	private int portNumber;
+	private bool isWired = false;
+	[SerializeField]
+	private string portNumber;
 
 	void Start(){
 		availability = true;
@@ -23,6 +28,20 @@ public class Droppable : MonoBehaviour
 		}
 	}
 
+	public string getPortNumber(){
+		return portNumber;
+	}
+	public void setPortNumber(string x){
+		portNumber = x;
+	}
+	public void updateNeighborPorts(string x){
+		if(neighbors.Length != 0){
+			for(int i=0; i<neighbors.Length; i++){
+	 			neighbors[i].setPortNumber(x);
+	 		}
+ 		}
+	}
+
 	public void changeColor(int color){
 		rend.sharedMaterial = material[color];
 	}
@@ -34,27 +53,35 @@ public class Droppable : MonoBehaviour
 	public void setAvailability(bool x){
 		availability = x;
 	}
+	public void setWired(bool x){
+		isWired = x;
+	}
 
 	public void determineAvailabilty(){
 		RaycastHit hit;
 		Debug.DrawRay(transform.position,Vector3.up * 1f, Color.blue);
-
-		if( Physics.Raycast(transform.position, Vector3.up, out hit, 1f) ){
+		if(isWired){
+			availability = false;
+		}
+		else{
+			if( Physics.Raycast(transform.position, Vector3.up, out hit, 1f) ){
 			string collide = hit.collider.gameObject.name;
-			
-			if(collide =="LED" | collide =="LED (1)"){
-				Debug.Log("------ " + collide + " from below------");
-				availability = false;
-				Debug.Log("------------- NANI THE HECKKKK --------- " + collide);
+				
+				if(collide =="LED" | collide =="resistor"){
+					Debug.Log("------ " + collide + " from below------");
+					availability = false;
+					Debug.Log("------------- NANI THE HECKKKK --------- " + collide);
+				}
+				else{
+					availability = true;
+				}
 			}
+
 			else{
 				availability = true;
 			}
 		}
-
-		else{
-			availability = true;
-		}
+		
 	}
 
 }
