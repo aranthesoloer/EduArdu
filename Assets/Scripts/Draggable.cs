@@ -13,6 +13,9 @@ public class Draggable : MonoBehaviour
     private BreadBoard board;
 
     [SerializeField]
+    private Draggable resistor;
+
+    [SerializeField]
     private Material glow;
     [SerializeField]
     private Material off;
@@ -133,8 +136,6 @@ public class Draggable : MonoBehaviour
         board.hideAvailability();
         board.updateAvailability();
         setPositionAfterDrop();
-        //Debug.Log("-------------- Drag ended --------------------");
-        //board.display();
     }
 
     void Start(){
@@ -146,6 +147,7 @@ public class Draggable : MonoBehaviour
         rend.enabled = true;
         materials = rend.sharedMaterials;
         rend.sharedMaterials = materials;
+        
     }
 
     void Update(){
@@ -155,43 +157,60 @@ public class Draggable : MonoBehaviour
         rayPosition2.x = transform.position.x; 
         rayPosition2.y = transform.position.y;
         rayPosition2.z = transform.position.z + zvalue2;
-        //board.updateAvailability();
+        board.updateAvailability();
 
         if (Input.GetKeyDown(KeyCode.M)){
             Debug.Log("----------- " + pin1.name + " ---------------- " + pin1.GetComponent<Droppable>().getPortNumber());
             Debug.Log("----------- " + pin2.name + " ---------------- " + pin2.GetComponent<Droppable>().getPortNumber());
         }
-        if(name == "LED" && pin1 != null && pin2 !=null){
-            if( pin1.GetComponent<Droppable>().getPortNumber()!= "none" &&  pin2.GetComponent<Droppable>().getPortNumber() != "none" ){
+        if( name == "LED" && pin1 != null && pin2 != null){
+            if( getPin1()!= "none" && getPin2()!= "none" && 
+                (pin1.GetComponent<Droppable>().checkNeighborsWithResistor()  || pin2.GetComponent<Droppable>().checkNeighborsWithResistor() ) &&
+                (resistor.getPin1() == "GND 1" || resistor.getPin1() == "GND 2" || 
+                resistor.getPin2() == "GND 2" || resistor.getPin2() == "GND 2") ) {
                 ledGlow();
+                
             }
             else{
                 ledOff();
             }
         }
+        else{
+            ledOff();
+        }
        
-        // if(name == "LED"){
-        //     if (Input.GetKeyDown(KeyCode.G)){
-        //         Debug.Log("------ Turn On LED ----------");
-        //         ledGlow();
-        //     }
-        //     else if (Input.GetKeyDown(KeyCode.H)){
-        //         Debug.Log("------- Turn Off LED --------");
-        //         ledOff();
-        //     }
-        // }
+        
+    }
+    string getPin1(){
+        if(pin1 != null){
+            return pin1.GetComponent<Droppable>().getPortNumber();
+        }
+        else{
+            return "none";
+        }
+    }
+    string getPin2(){
+        if(pin2 != null){
+            return pin2.GetComponent<Droppable>().getPortNumber();
+        }
+        else{
+            return "none";
+        }
+    }
+    void ledGlow(){
+        if(name == "LED"){
+            materials[1] = glow;
+            rend.sharedMaterials = materials;
+        }
         
     }
 
-    void ledGlow(){
-        // rend.materials[1] = glow;
-        materials[1] = glow;
-        rend.sharedMaterials = materials;
-    }
-
     void ledOff(){
-        materials[1] = off;
-        rend.sharedMaterials = materials;
+        if(name == "LED"){
+            materials[1] = off;
+            rend.sharedMaterials = materials;
+        }
+        
     }
 
 }

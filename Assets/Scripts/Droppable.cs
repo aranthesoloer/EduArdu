@@ -12,6 +12,8 @@ public class Droppable : MonoBehaviour
 	[SerializeField]
 	private string portNumber;
 
+	string componentAttached = "none";
+
 	void Start(){
 		availability = true;
 		rend = GetComponent<Renderer>();
@@ -42,6 +44,16 @@ public class Droppable : MonoBehaviour
  		}
 	}
 
+	public bool checkNeighborsWithResistor(){
+		
+		for(int i=0; i<neighbors.Length; i++){
+ 			if(neighbors[i].componentAttached == "resistor"){
+ 				return true;
+ 			}
+ 		}
+ 		return false;
+	}
+
 	public void changeColor(int color){
 		rend.sharedMaterial = material[color];
 	}
@@ -60,6 +72,7 @@ public class Droppable : MonoBehaviour
 	public void determineAvailabilty(){
 		RaycastHit hit;
 		Debug.DrawRay(transform.position,Vector3.up * 1f, Color.blue);
+
 		if(isWired){
 			availability = false;
 		}
@@ -68,17 +81,18 @@ public class Droppable : MonoBehaviour
 			string collide = hit.collider.gameObject.name;
 				
 				if(collide =="LED" | collide =="resistor"){
-					Debug.Log("------ " + collide + " from below------");
+					componentAttached = collide;
 					availability = false;
-					Debug.Log("------------- NANI THE HECKKKK --------- " + collide);
 				}
 				else{
 					availability = true;
+					componentAttached = "none";
 				}
 			}
 
 			else{
 				availability = true;
+				componentAttached = "none";
 			}
 		}
 		

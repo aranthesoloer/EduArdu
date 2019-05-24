@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -294,7 +294,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.25100002}
-  m_AnchoredPosition: {x: 0, y: -9.999939}
+  m_AnchoredPosition: {x: 0, y: -9.999878}
   m_SizeDelta: {x: 0, y: -19.900024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6240752
@@ -4671,7 +4671,7 @@ MonoBehaviour:
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
@@ -10876,6 +10876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 583960952}
   board: {fileID: 667911472}
+  resistor: {fileID: 0}
   glow: {fileID: 0}
   off: {fileID: 0}
   zvalue1: 2.6
@@ -24581,6 +24582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 583960952}
   board: {fileID: 667911472}
+  resistor: {fileID: 1097981111}
   glow: {fileID: 2100000, guid: 6255768e1716cfd46a9d5b6f440071f4, type: 2}
   off: {fileID: 2100090, guid: fcff736c0c95ec94792f2acafa9b8feb, type: 3}
   zvalue1: 0.54
