@@ -6,6 +6,12 @@ public class Draggable : MonoBehaviour
     Vector3 inventory;
     float posX;
     float posY;
+
+    //Code implementation
+    private int codePin;
+    private float delay;
+    private bool hasCode;
+
     [SerializeField]
     private Camera cam;
 
@@ -147,6 +153,7 @@ public class Draggable : MonoBehaviour
         rend.enabled = true;
         materials = rend.sharedMaterials;
         rend.sharedMaterials = materials;
+        hasCode = false;
         
     }
 
@@ -159,16 +166,17 @@ public class Draggable : MonoBehaviour
         rayPosition2.z = transform.position.z + zvalue2;
         board.updateAvailability();
 
-        if (Input.GetKeyDown(KeyCode.M)){
-            Debug.Log("----------- " + pin1.name + " ---------------- " + pin1.GetComponent<Droppable>().getPortNumber());
-            Debug.Log("----------- " + pin2.name + " ---------------- " + pin2.GetComponent<Droppable>().getPortNumber());
+        if (Input.GetKeyDown(KeyCode.Q)){
+            Debug.Log(" ------ " + getPin1() + " and " + getPin2() );
+            Debug.Log("------ " + hasCode + " and " + codePin + " and " + delay +" --------");
         }
         if( name == "LED" && pin1 != null && pin2 != null){
             if( getPin1()!= "none" && getPin2()!= "none" && 
                 (pin1.GetComponent<Droppable>().checkNeighborsWithResistor()  || pin2.GetComponent<Droppable>().checkNeighborsWithResistor() ) &&
                 (resistor.getPin1() == "GND 1" || resistor.getPin1() == "GND 2" || 
                 resistor.getPin2() == "GND 2" || resistor.getPin2() == "GND 2") ) {
-                ledGlow();
+                //ledGlow();
+                blinking();
                 
             }
             else{
@@ -197,6 +205,8 @@ public class Draggable : MonoBehaviour
             return "none";
         }
     }
+
+    //LED Mechanics
     void ledGlow(){
         if(name == "LED"){
             materials[1] = glow;
@@ -212,5 +222,26 @@ public class Draggable : MonoBehaviour
         }
         
     }
+    void blinking(){
+        if(name == "LED"){
+            if(hasCode && getPin1() == "" + codePin && getPin2() == "" + codePin  ){
+                ledGlow();
+                Invoke("ledOff",delay);
+            }
+            else{
+                ledGlow();
+            }
+        }
+    }
 
+    //Coding Implementation
+    public void setCodePin(int x){
+        codePin = x;
+    }
+    public void setDelay(float x){
+        delay = x;
+    }
+    public void setHasCode( bool x){
+        hasCode = x;
+    }
 }

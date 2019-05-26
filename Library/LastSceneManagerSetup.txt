@@ -2,6 +2,3 @@ sceneSetups:
 - path: Assets/Scenes/Room.unity
   isLoaded: 1
   isActive: 1
-- path: Assets/Scenes/backup.unity
-  isLoaded: 0
-  isActive: 0

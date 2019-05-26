@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 [RequireComponent(typeof(PlayerMotor))]
 public class PlayerController : MonoBehaviour
 {
 	[SerializeField]
 	private Camera camera2;
+
+	[SerializeField]
+	private TextMeshProUGUI outputCode;
 
 	[SerializeField]
 	private Camera camera3;
@@ -74,6 +78,7 @@ public class PlayerController : MonoBehaviour
 		motor.EnablePlayerCamera();
 		textEditor.SetActive(false);
 		camera3.enabled = false;
+		outputCode.text = "";
 	}
 
 	void Start(){
