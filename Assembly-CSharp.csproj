@@ -61,11 +61,13 @@
      <Compile Include="Assets\Scripts\Draggable.cs" />
      <Compile Include="Assets\Scripts\Droppable.cs" />
      <Compile Include="Assets\Scripts\holeSelector.cs" />
+     <Compile Include="Assets\Scripts\ObjectRotate.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PlayerData.cs" />
      <Compile Include="Assets\Scripts\PlayerMotor.cs" />
      <Compile Include="Assets\Scripts\ReturnToRoom.cs" />
      <Compile Include="Assets\Scripts\SaveSystem.cs" />
+     <Compile Include="Assets\Scripts\ShowPanel.cs" />
      <Compile Include="Assets\Scripts\WireHandler.cs" />
      <Compile Include="Assets\Scripts\Wires.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
