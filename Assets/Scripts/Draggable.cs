@@ -59,7 +59,7 @@ public class Draggable : MonoBehaviour
             GameObject first = hit1.collider.gameObject;
             GameObject second = hit2.collider.gameObject;
 
-            if(first.name != "table" & second.name!="table"){
+            if(first.name != "table" && second.name!="table"){
                 if(first.name == previousFirst & second.name == previousSecond){
                     board.changeAvailability(true, previousFirst, previousSecond);
                 }
@@ -82,7 +82,7 @@ public class Draggable : MonoBehaviour
             GameObject second = hit2.collider.gameObject;
 
             //Debug.Log("--------  Dropping to: " + first.name + "& " + second.name + "-----------------");
-            if ( first.name == "Inventory" & second.name == "Inventory" ){
+            if ( first.name == "Inventory" && second.name == "Inventory" ){
                 transform.position = inventory;
                 origin = inventory;
                 pin1 = null;
@@ -90,8 +90,8 @@ public class Draggable : MonoBehaviour
             }
 
 
-            else if(first.name != "table" & second.name !="table" & first.name != "resistor" & second.name !="resistor" ){
-                if( first.GetComponent<Droppable>().isAvailable() & second.GetComponent<Droppable>().isAvailable() ){
+            else if(first.name != "table" && second.name !="table" && first.name != "resistor" && second.name !="resistor" ){
+                if( first.GetComponent<Droppable>().isAvailable() && second.GetComponent<Droppable>().isAvailable() ){
                     board.changeAvailability(false, first.name, second.name);
                     pin1 = first;
                     pin2 = second;
@@ -120,6 +120,7 @@ public class Draggable : MonoBehaviour
         else{
             transform.position = origin;
         }
+        board.updateAvailability();
 
     }
 
@@ -165,22 +166,32 @@ public class Draggable : MonoBehaviour
         rayPosition2.y = transform.position.y;
         rayPosition2.z = transform.position.z + zvalue2;
         board.updateAvailability();
-
-        if (Input.GetKeyDown(KeyCode.Q)){
-            Debug.Log(" ------ " + getPin1() + " and " + getPin2() );
-            Debug.Log("------ " + hasCode + " and " + codePin + " and " + delay +" --------");
-        }
+        //(resistor.getPin1() == "GND 1" || resistor.getPin1() == "GND 2" || resistor.getPin2() == "GND 1" || resistor.getPin2() == "GND 2")
         if( name == "LED" && pin1 != null && pin2 != null){
             if( getPin1()!= "none" && getPin2()!= "none" && 
                 (pin1.GetComponent<Droppable>().checkNeighborsWithResistor()  || pin2.GetComponent<Droppable>().checkNeighborsWithResistor() ) &&
-                (resistor.getPin1() == "GND 1" || resistor.getPin1() == "GND 2" || 
-                resistor.getPin2() == "GND 2" || resistor.getPin2() == "GND 2") ) {
-                //ledGlow();
-                blinking();
+                (resistor.getPin1()=="GND 1" && (resistor.getPin2()!="GND 1" && resistor.getPin2()!="GND 2")||
+                resistor.getPin1()=="GND 2" && (resistor.getPin2()!="GND 1" && resistor.getPin2()!="GND 2") ||
+                resistor.getPin2()=="GND 1" && (resistor.getPin1()!="GND 1" && resistor.getPin1()!="GND 2") ||
+                resistor.getPin2()=="GND 2" && (resistor.getPin1()!="GND 1" && resistor.getPin1()!="GND 2") ) ) {
+
+                Debug.Log("------LED is blinking----");
+                string temp = ledStatus();
+
+                if(temp =="blink"){
+                    blinking(delay);
+                }
+                else if(temp == "glow"){
+                    ledGlow();
+                }
+                else{
+                    ledOff();
+                }
                 
             }
             else{
                 ledOff();
+               
             }
         }
         else{
@@ -222,15 +233,22 @@ public class Draggable : MonoBehaviour
         }
         
     }
-    void blinking(){
+    void blinking(float delay){
+        ledGlow();
+        Invoke("ledOff", delay);
+    }
+
+    string ledStatus(){
         if(name == "LED"){
             if(hasCode && getPin1() == "" + codePin && getPin2() == "" + codePin  ){
-                ledGlow();
-                Invoke("ledOff",delay);
+                return "blink";
             }
             else{
-                ledGlow();
+                return "glow";
             }
+        }
+        else{
+            return "off";
         }
     }
 

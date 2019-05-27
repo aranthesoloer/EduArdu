@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
 	void Update(){
 		// Calculate movement velocity as a 3D vector
-		if(camera2.enabled == false & camera3.enabled == false ){
+		if(camera2.enabled == false && camera3.enabled == false ){
 			float _xMovement = Input.GetAxisRaw("Horizontal");
 			float _zMovement = Input.GetAxisRaw("Vertical");
 
@@ -188,7 +188,12 @@ public class PlayerController : MonoBehaviour
         	}
         }
         else{
+        	
         	panel.SetActive(false);
         }
+        if (Input.GetKeyDown(KeyCode.Escape)){
+			motor.EnablePlayerCamera();
+			camera2.enabled = false;
+	    }
 	}
 }
