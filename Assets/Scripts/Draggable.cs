@@ -175,11 +175,13 @@ public class Draggable : MonoBehaviour
                 resistor.getPin2()=="GND 1" && (resistor.getPin1()!="GND 1" && resistor.getPin1()!="GND 2") ||
                 resistor.getPin2()=="GND 2" && (resistor.getPin1()!="GND 1" && resistor.getPin1()!="GND 2") ) ) {
 
-                Debug.Log("------LED is blinking----");
+                
                 string temp = ledStatus();
 
                 if(temp =="blink"){
+                    Debug.Log("------LED is blinking----");
                     blinking(delay);
+
                 }
                 else if(temp == "glow"){
                     ledGlow();

@@ -77,24 +77,30 @@ public class PlayerController : MonoBehaviour
 	public void ExitEditor(){
 		motor.EnablePlayerCamera();
 		textEditor.SetActive(false);
+		camera2.enabled = false;
 		camera3.enabled = false;
 		outputCode.text = "";
 	}
+
+
+
 
 	void Start(){
 		panel.SetActive(false);
 		textEditor.SetActive(false);
 		motor = GetComponent<PlayerMotor>();
-		//LoadPlayer();
-		// SaveSystem.DeleteFile("/player.fun");
-		// SaveSystem.DeleteFile("/playercamera.fun");
 		camera2.enabled = false;
 		camera3.enabled = false;
+		Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
 	}  
 
 	void Update(){
 		// Calculate movement velocity as a 3D vector
 		if(camera2.enabled == false && camera3.enabled == false ){
+			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Locked;
+
 			float _xMovement = Input.GetAxisRaw("Horizontal");
 			float _zMovement = Input.GetAxisRaw("Vertical");
 
@@ -136,17 +142,22 @@ public class PlayerController : MonoBehaviour
         if(Physics.Raycast(position, this.transform.forward, out whatIHit, distanceToSee)){
         	string current = whatIHit.collider.gameObject.name;
 
-        	//Debug.Log(" I touched " + whatIHit.collider.gameObject.name);
         	if(current == "table"){
         		interact.text = "Press 'E' to interact with\n[ " + whatIHit.collider.gameObject.name +" ]";
 
     			if (Input.GetKeyDown(KeyCode.E)){
     				motor.DisablePlayerCamera();
     				camera2.enabled = true;
+    				camera3.enabled = false;
+    				Cursor.visible = true;
+					Cursor.lockState = CursorLockMode.None;
     			}
     			else if (Input.GetKeyDown(KeyCode.Escape)){
+    				Cursor.visible = false;
+					Cursor.lockState = CursorLockMode.Locked;
         			motor.EnablePlayerCamera();
     				camera2.enabled = false;
+    				camera3.enabled = false;
 	    		}
 
 	    		if(camera2.enabled == true){
@@ -163,7 +174,10 @@ public class PlayerController : MonoBehaviour
         			panel.SetActive(false);
         			textEditor.SetActive(true);
         			motor.DisablePlayerCamera();
+        			camera2.enabled = false;
     				camera3.enabled = true;
+    				Cursor.visible = true;
+					Cursor.lockState = CursorLockMode.None;
         		}
 
 	    		if(camera3.enabled == true){
@@ -178,6 +192,8 @@ public class PlayerController : MonoBehaviour
         		interact.text = "Press 'E' to interact with\n[ " + whatIHit.collider.gameObject.name +" ] To Return to MainMenu";
         		panel.SetActive(true);
         		if (Input.GetKeyDown(KeyCode.E)){
+        			Cursor.visible = true;
+					Cursor.lockState = CursorLockMode.None;
         			SceneManager.LoadScene("main_menu");
         		}
 
@@ -191,9 +207,12 @@ public class PlayerController : MonoBehaviour
         	
         	panel.SetActive(false);
         }
-        if (Input.GetKeyDown(KeyCode.Escape)){
-			motor.EnablePlayerCamera();
-			camera2.enabled = false;
-	    }
+   //      if (Input.GetKeyDown(KeyCode.Escape)){
+   //      	Cursor.visible = false;
+			// Cursor.lockState = CursorLockMode.Locked;
+			// motor.EnablePlayerCamera();
+			// camera2.enabled = false;
+			// camera3.enabled = false;
+	  //   }
 	}
 }
