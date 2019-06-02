@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
 	[SerializeField]
 	private Text interact;
+
 	// }
 
 	// public void SavePlayer(){
@@ -115,6 +116,8 @@ public class PlayerController : MonoBehaviour
 
 			//Calculate rotation as a 3D Vector (turning around)
 			float _yRotation = Input.GetAxisRaw("Mouse X");
+
+			
 			Vector3 _rotation = new Vector3(0f,_yRotation, 0f ) * lookSensitivity;
 
 			// Apply rotation

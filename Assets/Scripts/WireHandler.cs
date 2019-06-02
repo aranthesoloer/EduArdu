@@ -56,7 +56,6 @@ public class WireHandler : MonoBehaviour
 	       	if  (Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit, 100)) {
 
 	        	if(hit.collider.gameObject.name == "Colider"){
-	        		Debug.Log(hit.collider.transform.parent.gameObject.name);
 	        		hit.collider.transform.parent.gameObject.GetComponent<Wires>().resetConnection();
 	        		Destroy(hit.collider.transform.parent.gameObject);
 
@@ -68,7 +67,6 @@ public class WireHandler : MonoBehaviour
 
 	        	Vector3 offset = hit.point;
 	        	GameObject target = hit.collider.gameObject;
-	        	Debug.Log( target.name);
 	        	if(target.GetComponent<Droppable>().isAvailable()){
 	        		if(selectFirst) {
 	        			wiring.hover(target.name);
@@ -89,26 +87,23 @@ public class WireHandler : MonoBehaviour
 	        		wiring.changeAvailability(false, wireFirst.name, wireSecond.name);
 	        		wiring.changeWired(true, wireFirst.name, wireSecond.name);
 	        		string portNumber1 = wireFirst.GetComponent<Droppable>().getPortNumber();
-	        		string portNumber2 = wireSecond.GetComponent<Droppable>().getPortNumber();
+				    string portNumber2 = wireSecond.GetComponent<Droppable>().getPortNumber();
 
-	        		if(portNumber1!="none"){
-	        			wireSecond.GetComponent<Droppable>().updateNeighborPorts(portNumber1);
-	        		}
-	        		else{
-	        			if(portNumber2!="none"){
-	        				wireFirst.GetComponent<Droppable>().updateNeighborPorts(portNumber2);
-	        			}
-
-	        		}
-
+				    if(portNumber1!="none"){
+				    	wireSecond.GetComponent<Droppable>().updateNeighborPorts(portNumber1);
+				        wireSecond.GetComponent<Droppable>().setPortNumber(portNumber1);
+				    }
+			      	else{
+			        	if(portNumber2!="none"){
+				          	wireFirst.GetComponent<Droppable>().updateNeighborPorts(portNumber2);
+				          	wireFirst.GetComponent<Droppable>().setPortNumber(portNumber2);
+			        	}
+			      	}
 	        		endTemp = GetMouseCameraPoint();
 	            	Vector3 start = wireFirst.transform.localPosition;
 	            	Vector3 end = wireSecond.transform.localPosition;
 	            	ctr ++;
-	            	Debug.Log(wireFirst.name + " ---- " + wireSecond.name);
-		            Debug.Log("----- "+ start + "&& " + end +" -----------------");
 		            createWire(startTemp, endTemp, ctr);
-		            Debug.Log("-----------Wire " + ctr + " generated----------------");
 		            wireFirst = null;
 		            wireSecond = null;
 		            buttonWasDown = false;

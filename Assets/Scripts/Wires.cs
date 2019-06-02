@@ -6,11 +6,23 @@ public class Wires : MonoBehaviour
 {
     // Start is called before the first frame update
     private GameObject wireFirst = null;
-	private GameObject wireSecond = null;
+	  private GameObject wireSecond = null;
    	public void setConnection(GameObject x, GameObject y){
-   		Debug.Log("-----Setting up connection----------");
    		wireFirst = x;
    		wireSecond = y;
+      string portNumber1 = wireFirst.GetComponent<Droppable>().getPortNumber();
+      string portNumber2 = wireSecond.GetComponent<Droppable>().getPortNumber();
+
+      if(portNumber1!="none"){
+        wireSecond.GetComponent<Droppable>().updateNeighborPorts(portNumber1);
+        wireSecond.GetComponent<Droppable>().setPortNumber(portNumber1);
+      }
+      else{
+        if(portNumber2!="none"){
+          wireFirst.GetComponent<Droppable>().updateNeighborPorts(portNumber2);
+          wireFirst.GetComponent<Droppable>().setPortNumber(portNumber2);
+        }
+      }
    	}
    	public void resetConnection(){
    		wireFirst.GetComponent<Droppable>().setWired(false);

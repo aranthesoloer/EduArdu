@@ -9,6 +9,7 @@ public class Droppable : MonoBehaviour
 	Renderer rend;
 	private bool availability;
 	private bool isWired = false;
+
 	[SerializeField]
 	private string portNumber;
 

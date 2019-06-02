@@ -81,7 +81,6 @@ public class Draggable : MonoBehaviour
             GameObject first = hit1.collider.gameObject;
             GameObject second = hit2.collider.gameObject;
 
-            //Debug.Log("--------  Dropping to: " + first.name + "& " + second.name + "-----------------");
             if ( first.name == "Inventory" && second.name == "Inventory" ){
                 transform.position = inventory;
                 origin = inventory;
@@ -166,7 +165,11 @@ public class Draggable : MonoBehaviour
         rayPosition2.y = transform.position.y;
         rayPosition2.z = transform.position.z + zvalue2;
         board.updateAvailability();
-        //(resistor.getPin1() == "GND 1" || resistor.getPin1() == "GND 2" || resistor.getPin2() == "GND 1" || resistor.getPin2() == "GND 2")
+
+        if (Input.GetKeyDown(KeyCode.P)){
+            Debug.Log("------ Toggle Component PIN NUMBERS [ "+ name +" ] --------");
+            Debug.Log("-------- "+getPin1() + " & " + getPin2() + "------------");
+        }
         if( name == "LED" && pin1 != null && pin2 != null){
             if( getPin1()!= "none" && getPin2()!= "none" && 
                 (pin1.GetComponent<Droppable>().checkNeighborsWithResistor()  || pin2.GetComponent<Droppable>().checkNeighborsWithResistor() ) &&
@@ -175,11 +178,9 @@ public class Draggable : MonoBehaviour
                 resistor.getPin2()=="GND 1" && (resistor.getPin1()!="GND 1" && resistor.getPin1()!="GND 2") ||
                 resistor.getPin2()=="GND 2" && (resistor.getPin1()!="GND 1" && resistor.getPin1()!="GND 2") ) ) {
 
-                
                 string temp = ledStatus();
 
                 if(temp =="blink"){
-                    Debug.Log("------LED is blinking----");
                     blinking(delay);
 
                 }
